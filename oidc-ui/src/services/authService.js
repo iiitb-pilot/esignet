@@ -36,7 +36,7 @@ class authService {
       requestTime: new Date().toISOString(),
       request: {
         transactionId: transactionId,
-        individualId: individualId.replace(/[^0-9]/g,"") + "@nrcid",
+        individualId: individualId.replace(/[/]/g,"") + "@nrcid",
         challengeList: challengeList,
       },
     };
@@ -174,7 +174,7 @@ class authService {
       requestTime: new Date().toISOString(),
       request: {
         transactionId: transactionId,
-        individualId: individualId.replace(/[^0-9]/g,"") + "@nrcid",
+        individualId: individualId.replace(/[/]/g,"") + "@nrcid",
         otpChannels: otpChannels,
         captchaToken: captchaToken,
       },
