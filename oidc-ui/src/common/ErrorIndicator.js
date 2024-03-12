@@ -61,8 +61,7 @@ const ErrorIndicator = ({
 
   return (
     <div className={fixedInputClass + customClass} role="alert">
-      {t(errorCode, defaultMsg) + ": "}
-      {prefix && t(prefix)}
+      {t(errorCode, defaultMsg)}
     </div>
   );
 };
