@@ -101,7 +101,6 @@ export default function OtpGet({
           errorCode: errors[0].errorCode,
           defaultMsg: errors[0].errorMessage,
         });
-        setShowCaptcha(true);
         return;
       } else {
         onOtpSent(vid, response);
