@@ -82,7 +82,33 @@ export default function OtpGet({
   };
 
   const handleChange = (e) => {
-    setLoginState({ ...loginState, [e.target.id]: e.target.value });
+ 
+    let { id, value } = e.target;
+    const isBackspace = e.nativeEvent.inputType === 'deleteContentBackward';
+    let cursorPosition = e.target.selectionStart;
+
+    if (id === 'Otp_mosip-vid') {
+        if (!isBackspace && value.length > 10) {
+          return; // Do not update the state if the value exceeds the format
+      }
+       // If backspace is pressed
+        if (isBackspace) {
+            if (cursorPosition > 0 && value[cursorPosition - 1] === '/') {
+                // Remove the slash just before the cursor position
+                value = value.slice(0, cursorPosition - 1)
+            }
+        }
+        // Remove all slashes to reset the string before formatting
+        value = value.replace(/[/]/g,"");
+        // Add slashes based on the length of the value
+        if (value.length > 6) {
+            value = value.slice(0, 6) + '/' + value.slice(6);
+        }
+        if (value.length > 9) {
+            value = value.slice(0, 9) + '/' + value.slice(9);
+        }
+    }
+        setLoginState({ ...loginState, [id]: value });
   };
 
   const sendOTP = async () => {
