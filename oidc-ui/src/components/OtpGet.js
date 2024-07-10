@@ -116,9 +116,7 @@ export default function OtpGet({
 
       let transactionId = openIDConnectService.getTransactionId();
       let vid = loginState["Otp_mosip-vid"];
-
-      console.log(loginState["Otp_mosip-vid"]);
-
+      
       let otpChannels = commaSeparatedChannels.split(",").map((x) => x.trim());
 
       setStatus({ state: states.LOADING, msg: "sending_otp_msg" });
