@@ -1,0 +1,5 @@
+persistence:
+  storageClass: nfs-client
+  size: 1Gi
+
+
