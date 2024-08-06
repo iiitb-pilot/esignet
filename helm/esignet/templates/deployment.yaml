@@ -108,6 +108,9 @@ spec:
             - secretRef:
                 name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsSecret "context" $) }}
             {{- end }}
+            #volumeMounts:
+            # - name: key-store
+            #  mountPath: {{ .Values.persistence.mountDir }}  
           ports:
             - name: spring-service
               containerPort: {{ .Values.springServicePort }}
@@ -131,6 +134,8 @@ spec:
           readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customReadinessProbe "context" $) | nindent 12 }}
           {{- end }}
           volumeMounts:
+          - name: key-store
+            mountPath: {{ .Values.persistence.mountDir }}
           {{- if .Values.enable_insecure }}
           - mountPath: /usr/local/openjdk-11/lib/security/cacerts
             name: cacerts
@@ -140,7 +145,15 @@ spec:
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
       volumes:
-      {{- if .Values.enable_insecure }}
-      - name: cacerts
-        emptyDir: {}
-      {{- end }}
+        {{- if .Values.enable_insecure }}
+        - name: cacerts
+          emptyDir: {}
+        {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: key-store
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "common.names.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}  
+        
