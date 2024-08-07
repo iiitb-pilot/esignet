@@ -84,7 +84,7 @@ function installing_esignet() {
   fi
 
   echo Installing esignet
-  helm -n $NS install esignet mosip/esignet --version $CHART_VERSION $ENABLE_INSECURE
+  helm -n $NS install esignet /home/md/esignet/helm/esignet --version $CHART_VERSION $ENABLE_INSECURE -f values-sc.yaml
 
   kubectl -n $NS  get deploy -o name |  xargs -n1 -t  kubectl -n $NS rollout status
 
