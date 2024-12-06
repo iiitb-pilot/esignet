@@ -21,6 +21,7 @@ on:
       - MOSIP*
       - release*
       - ES-393
+      - ES-1984
 
 jobs:
   build-maven-esignet:
