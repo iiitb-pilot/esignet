@@ -99,6 +99,7 @@ jobs:
     with:
       SERVICE_LOCATION: ${{ matrix.SERVICE_LOCATION }}
       SERVICE_NAME: ${{ matrix.SERVICE_NAME }}
+      NPM_BUILD: true
     secrets:
       DEV_NAMESPACE_DOCKER_HUB: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
       ACTOR_DOCKER_HUB: ${{ secrets.ACTOR_DOCKER_HUB }}
