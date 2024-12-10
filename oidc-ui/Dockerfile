@@ -29,6 +29,9 @@ RUN npm install
 COPY . ./
 RUN npm run build
 
+# Save package.json and npm dependency list
+RUN npm list --json > npm-dependencies.json
+
 FROM nginx
 
 RUN apt-get -y update \
@@ -88,6 +91,8 @@ COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 # copy build files to nginx html directory
 COPY --from=build_esignet_ui /build  ${work_dir}
+
+COPY --from=build_esignet_ui /npm-dependencies.json ${work_dir}/npm-dependencies.json
 
 RUN echo "DEFAULT_THEME=$DEFAULT_THEME" >> ${work_dir}/env.env && echo "DEFAULT_LANG=$DEFAULT_LANG" >> ${work_dir}/env.env && echo "DEFAULT_WELLKNOWN=$DEFAULT_WELLKNOWN" >> ${work_dir}/env.env && echo "DEFAULT_FEVICON=$DEFAULT_FEVICON" >> ${work_dir}/env.env env && echo "DEFAULT_TITLE=$DEFAULT_TITLE" >> ${work_dir}/env.env && echo "DEFAULT_ID_PROVIDER_NAME=$DEFAULT_ID_PROVIDER_NAME" >> ${work_dir}/env.env
 
