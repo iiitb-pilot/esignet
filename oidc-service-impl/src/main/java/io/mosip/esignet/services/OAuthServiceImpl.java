@@ -5,6 +5,8 @@
  */
 package io.mosip.esignet.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWK;
 import io.mosip.esignet.api.dto.KycExchangeDto;
@@ -204,14 +206,26 @@ public class OAuthServiceImpl implements OAuthService {
     }
 
     private void authenticateClient(TokenRequest tokenRequest, ClientDetail clientDetail,boolean isV2) throws EsignetException {
-        switch (tokenRequest.getClient_assertion_type()) {
-            case JWT_BEARER_TYPE:
-                validateJwtClientAssertion(clientDetail.getId(), clientDetail.getPublicKey(), tokenRequest.getClient_assertion(),
-                        isV2? (String) oauthServerDiscoveryMap.get("token_endpoint") :discoveryIssuerId+"/oauth/token");
-                break;
-            default:
-                throw new InvalidRequestException(ErrorConstants.INVALID_ASSERTION_TYPE);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            switch (tokenRequest.getClient_assertion_type()) {
+                case JWT_BEARER_TYPE:
+                    log.info("THAM - TokenRequest : " + mapper.writeValueAsString(tokenRequest) );
+                    log.info("THAM - ClientDetail : " + mapper.writeValueAsString(clientDetail) );
+                    log.info("THAM - isV2 : " + (isV2? (String) oauthServerDiscoveryMap.get("token_endpoint") :discoveryIssuerId+"/oauth/token"));
+                    log.info("THAM - getClient_assertion : " + tokenRequest.getClient_assertion() );
+
+                    validateJwtClientAssertion(clientDetail.getId(), clientDetail.getPublicKey(), tokenRequest.getClient_assertion(),
+                            isV2? (String) oauthServerDiscoveryMap.get("token_endpoint") :discoveryIssuerId+"/oauth/token");
+                    break;
+                default:
+                    throw new InvalidRequestException(ErrorConstants.INVALID_ASSERTION_TYPE);
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
+
     }
 
     private void validateJwtClientAssertion(String clientId, String jwk, String clientAssertion,String audience) throws EsignetException {
