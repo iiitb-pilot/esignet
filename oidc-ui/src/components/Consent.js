@@ -183,35 +183,62 @@ export default function Consent({
       let oAuthDetails = openIDConnectService.getOAuthDetails();
 
       let claimsScopes = [];
-      claimsScopes.push({
-        label: "authorize_scope",
-        type: "scope",
-        required: false,
-        values: oAuthDetails?.authorizeScopes,
-        tooltip: "authorize_scope_tooltip",
-      });
+      // claimsScopes.push({
+      //   label: "authorize_scope",
+      //   type: "scope",
+      //   required: false,
+      //   values: oAuthDetails?.authorizeScopes,
+      //   tooltip: "authorize_scope_tooltip",
+      // });
 
-      claimsScopes.push({
-        label: "essential_claims",
-        type: "claim",
-        required: true,
-        values: oAuthDetails?.essentialClaims,
-        tooltip: "essential_claims_tooltip",
-      });
+      // claimsScopes.push({
+      //   label: "essential_claims",
+      //   type: "claim",
+      //   required: true,
+      //   values: oAuthDetails?.essentialClaims,
+      //   tooltip: "essential_claims_tooltip",
+      // });
 
-      claimsScopes.push({
-        label: "voluntary_claims",
-        type: "claim",
-        required: false,
-        values: oAuthDetails?.voluntaryClaims,
-        tooltip: "voluntary_claims_tooltip",
-      });
+      // claimsScopes.push({
+      //   label: "voluntary_claims",
+      //   type: "claim",
+      //   required: false,
+      //   values: oAuthDetails?.voluntaryClaims,
+      //   tooltip: "voluntary_claims_tooltip",
+      // });
+
+let clientId = oAuthDetails?.clientId;
+const isResidentPortal = clientId === "Dz7vrRm_qiYEGE5fQOPlbMPxdrwRbcvdU8y8L7ldgBA"; // adjust the ID as per actual value
+claimsScopes.push({
+  label: "authorize_scope",
+  type: "scope",
+  required: false,
+  values: oAuthDetails?.authorizeScopes,
+  tooltip: "authorize_scope_tooltip",
+});
+if (!isResidentPortal) {
+  claimsScopes.push({
+    label: "essential_claims",
+    type: "claim",
+    required: true,
+    values: oAuthDetails?.essentialClaims,
+    tooltip: "essential_claims_tooltip",
+  });
+  claimsScopes.push({
+    label: "voluntary_claims",
+    type: "claim",
+    required: false,
+    values: oAuthDetails?.voluntaryClaims,
+    tooltip: "voluntary_claims_tooltip",
+  });
+}
 
       setClaimsScopes(claimsScopes);
       setClientMultiLang(langConfig);
       setClientLogoPath(oAuthDetails?.logoUrl);
 
-      setClaims(oAuthDetails?.essentialClaims);
+      // setClaims(oAuthDetails?.essentialClaims);
+      setClaims(isResidentPortal ? [] : oAuthDetails?.essentialClaims);
     };
     if (firstRender.current) {
       firstRender.current = false;
