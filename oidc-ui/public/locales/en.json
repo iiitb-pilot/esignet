@@ -300,21 +300,30 @@
     "buttons": {
       "mobile": "Mobile Number",
       "nrc": "NRC ID",
-      "vid": "UIN/VID",
-      "email": "Email"
+      "vid": "VID",
+      "email": "Email",
+      "uin":"UIN",
+      "passport":"PASSPORT",
+      "brnnumber":"BRN Number"
     },
     "input": {
       "label": {
         "mobile": "Mobile Number",
         "nrc": "NRC ID",
-        "vid": "UIN/VID",
-        "email": "Email"
+        "vid": "UIN",
+        "email": "Email",
+        "uin":"UIN",
+        "passport":"PASSPORT",
+       "brnnumber":"BRN Number"
       },
       "placeholder": {
         "mobile": "Enter Mobile Number",
         "nrc": "Enter NRC ID",
-        "vid": "Enter UIN/VID",
-        "email": "Enter Email ID"
+        "vid": "Enter VID",
+        "uin": "Enter UIN",
+        "email": "Enter Email ID",
+        "passport":" Enter Passport Number",
+        "brnnumber":"Enter Brn Number"
       }
     }
   },
